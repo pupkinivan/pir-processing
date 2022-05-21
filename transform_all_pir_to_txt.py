@@ -6,7 +6,6 @@ import csv
 import logging
 from multiprocessing import cpu_count
 import os
-import sys
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from PirFile import PirFile
