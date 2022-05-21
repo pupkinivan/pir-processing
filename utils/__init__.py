@@ -1,5 +1,5 @@
 import os
-from PirFile import PirFile
+import PirFile
 
 
 class PirUtils:

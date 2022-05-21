@@ -7,6 +7,7 @@ import logging
 from multiprocessing import cpu_count
 import os
 import sys
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 from PirFile import PirFile
 
@@ -44,8 +45,14 @@ def save_pir_data_as_txt(path_to_file: str | os.PathLike[str], pir_file: PirFile
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 2:
-        logging.error("Too many arguments, expected only one directory")
+    parser = argparse.ArgumentParser(
+        description="Enter a directory from which to source PIR files and transform them to .txt"
+    )
+    parser.add_argument("directory_path", help="Path to the PIR directory")
+    args = parser.parse_args()
+
+    if args.directory_path is None:
+        logging.error("Expected one directory")
         exit(1)
     else:
         directory = sys.argv[1]
