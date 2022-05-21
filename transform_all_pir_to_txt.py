@@ -55,9 +55,8 @@ if __name__ == '__main__':
         logging.error("Expected one directory")
         exit(1)
     else:
-        directory = sys.argv[1]
-        if not os.path.exists(directory):
+        if not os.path.exists(args.directory_path):
             logging.error("The given directory does not exist")
             exit(2)
         else:
-            transform_all_pir_files(directory)
+            transform_all_pir_files(args.directory_path)
