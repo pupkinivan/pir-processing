@@ -12,20 +12,19 @@ from PirFile import PirFile
 
 
 def scan_for_pir_files_in_directory(directory: str | os.PathLike[str]):
-    return filter(lambda filename: (filename[-3:].lower() == "pir"), os.listdir(directory))
+    return set(filter(lambda filename: (filename[-3:].lower() == "pir"), os.listdir(directory)))
 
 
 def transform_all_pir_files(directory: [str, os.PathLike] = "."):
-    pir_files_list = scan_for_pir_files_in_directory(directory)
+    pir_files_set = {os.path.join(directory, pir_file_name)
+                     for pir_file_name in scan_for_pir_files_in_directory(directory)}
     _workers: int = cpu_count()
 
     with ThreadPoolExecutor(_workers) as thread_pool:
-        thread_pool.map(read_and_save_pir_as_txt, pir_files_list)
-        for pir_file_path in pir_files_list:
-            read_and_save_pir_as_txt(pir_file_path)
+        thread_pool.map(read_and_save_pir_as_txt, pir_files_set)
 
     print(f"Transformed the following .PIR files:")
-    for filename in pir_files_list:
+    for filename in pir_files_set:
         print(filename)
 
 
