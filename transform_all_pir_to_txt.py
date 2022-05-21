@@ -54,8 +54,10 @@ if __name__ == '__main__':
         logging.error("Expected one directory")
         exit(1)
     else:
-        if not os.path.exists(args.directory_path):
-            logging.error("The given directory does not exist")
+        absolute_path = os.path.abspath(os.path.expanduser(os.path.expandvars(args.directory_path)))
+        if not os.path.exists(absolute_path):
+            logging.error(f"Directory {absolute_path} does not exist")
             exit(2)
         else:
-            transform_all_pir_files(args.directory_path)
+            print(f"Contents of {absolute_path}: {os.listdir(absolute_path)}")
+            transform_all_pir_files(absolute_path)
