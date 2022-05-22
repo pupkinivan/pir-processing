@@ -1,4 +1,5 @@
-from utils import PirUtils
+import os
+from utils import read_float_little_endian, read_int_little_endian
 
 
 class PirFile:
@@ -111,3 +112,71 @@ class PirFile:
 
     def get_pir_data(self):
         return self.__pir_data
+
+
+class PirUtils:
+
+    @staticmethod
+    def read_pir_file(file_path: str | os.PathLike[str]) -> PirFile:
+        # Initialize nullables
+        cursor_position = None
+        marker_position = None
+        reserved_3 = None
+        reserved_4 = None
+
+        with open(file_path, 'rb') as file:
+            file_signature = [bytes(file.read(1)) for i in range(4)]
+            unsigned_int_version = read_int_little_endian(file)
+            info_size = read_int_little_endian(file)
+            reserved_1 = read_int_little_endian(file)
+            reserved_2 = read_int_little_endian(file)
+            sample_rate_float = read_float_little_endian(file)
+            sample_rate_int = read_int_little_endian(file)
+            pir_length = read_int_little_endian(file)
+            input_device = read_int_little_endian(file)
+            device_sensitivity = read_float_little_endian(file)
+            measurement_type = read_int_little_endian(file)
+            averaging_type = read_int_little_endian(file)
+            number_of_averages = read_int_little_endian(file)
+            bfiltered = read_int_little_endian(file)
+            generator_type = read_int_little_endian(file)
+            peak_left = read_float_little_endian(file)
+            peak_right = read_float_little_endian(file)
+            generator_subtype = read_int_little_endian(file)
+
+            if unsigned_int_version >= 5:
+                cursor_position = read_int_little_endian(file)
+                marker_position = read_int_little_endian(file)
+            else:
+                reserved_3 = read_float_little_endian(file)
+                reserved_4 = read_float_little_endian(file)
+
+            pir_data = [read_float_little_endian(file) for i in range(pir_length)]
+            info_text = ''.join(file.read())
+
+        return PirFile(
+            file_signature,
+            unsigned_int_version,
+            reserved_1,
+            reserved_2,
+            info_size,
+            sample_rate_float,
+            sample_rate_int,
+            pir_length,
+            input_device,
+            device_sensitivity,
+            measurement_type,
+            averaging_type,
+            number_of_averages,
+            bfiltered,
+            generator_type,
+            peak_left,
+            peak_right,
+            generator_subtype,
+            pir_data,
+            info_text,
+            cursor_position,
+            marker_position,
+            reserved_3,
+            reserved_4
+        )

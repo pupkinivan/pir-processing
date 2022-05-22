@@ -8,7 +8,7 @@ from multiprocessing import cpu_count
 import os
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-from PirFile import PirFile
+from pir import PirFile
 
 
 def scan_for_pir_files_in_directory(directory: str | os.PathLike[str]):
@@ -39,7 +39,7 @@ def save_pir_data_as_txt(path_to_file: str | os.PathLike[str], pir_file: PirFile
     with open(path_to_file, 'w') as output_file:
         txt_writer = csv.writer(output_file, delimiter=',')
         for pir_row in pir_file.get_pir_data():
-            txt_writer.writerow(pir_row)
+            txt_writer.writerow([pir_row])
 
 
 if __name__ == '__main__':
