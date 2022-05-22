@@ -1,9 +1,20 @@
 import os
 import PirFile
 from binascii import hexlify
+from functools import reduce
 
 
 class PirUtils:
+
+    @staticmethod
+    def inverted_bytes_to_int(byte_array: list[bytes]):
+        def reduce_function(accumulator_tuple: tuple[int, int], byte: bytes):
+            """ The tuple carries the index in the first element and the cumulative value in the second one. """
+            return accumulator_tuple[0] + 1, \
+                   accumulator_tuple[1] + byte * (16 ** (2 * accumulator_tuple[0]))
+
+        return reduce(reduce_function, byte_array, (0, 0))[1]
+
     @staticmethod
     def read_pir_file(file_path: str | os.PathLike[str]) -> PirFile:
         with open(file_path, 'rb') as file:
@@ -13,7 +24,7 @@ class PirUtils:
             reserved_1 = int(hexlify(file.read(4)), 16)
             reserved_2 = int(hexlify(file.read(4)), 16)
             sample_rate_float = float(hexlify(file.read(4)))
-            sample_rate_int = int(hexlify(file.read(4)), 16)
+            sample_rate_int = PirUtils.inverted_bytes_to_int(file.read(4))
             pir_length = int(hexlify(file.read(4)), 16)
             input_device = int(hexlify(file.read(4)), 16)
             device_sensitivity = float(hexlify(file.read(4)))

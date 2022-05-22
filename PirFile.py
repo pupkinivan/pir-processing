@@ -50,10 +50,29 @@ class PirFile:
         :param averaging_type: int, 0 - Time; 1 - Frequency
         :param number_of_averages: int, number of averages used in measurements
         :param bfiltered: int, forced antialiasing filtering in 2 ch
-        :param generator_type: int, generator type
+        :param generator_type: int. Generator types (gentype) are:
+            - SIG_NONE 0
+            - SIG_NOISE_WHITE 1
+            - SIG_NOISE_PINK 2
+            - SIG_RPMS_WHITE 3
+            - SIG_RPMS_PINK 4
+            - SIG_RPMS_SPEECH 5
+            - SIG_SINE 6
+            - SIG_SINE_TWO_FR 7
+            - SIG_MULTITONE 8
+            - SIG_TYPE_SQUARE 9
+            - SIG_TYPE_TRIANGLE 10
+            - SIG_TYPE_JITTER 11
+            - SIG_TYPE_MLS 12
+            - SIG_TYPE_SWEEP_LIN 13
+            - SIG_TYPE_SWEEP_LOG 14
+            - SIG_TYPE_PULSE 15
+            - SIG_TYPE_BURST 16
         :param peak_left: float, peak value(ref. 1.0) in left input channel
         :param peak_right: float, peak value(ref. 1.0) in right input channel
-        :param generator_subtype: int, (0 - male, 1—female for Speech PN …)
+        :param generator_subtype: int. Generator subtypes are defined for generator_type SIG_RPMS_SPEECH (5) as:
+            - 0, male,
+            - 1, female
         :param pir_data: list[float], IR data itself
         :param info_text: str, the user-defined text, of length info_size
         :param cursor_position: int | None = None, if unsigned_int_version >= 5, cursor position
