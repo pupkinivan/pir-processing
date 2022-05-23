@@ -1,6 +1,10 @@
+import os
 import struct
 from functools import reduce
 
+
+def expand_absolute_path(absolute_path: str | os.PathLike[str]):
+    return os.path.abspath(os.path.expanduser(os.path.expandvars(absolute_path)))
 
 def inverted_bytes_to_int(byte_array: list[bytes]):
     def reduce_function(accumulator_tuple: tuple[int, int], byte: bytes):
