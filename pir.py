@@ -43,8 +43,8 @@ class PirFile:
         :param info_size: int, the length of the user-defined info at the end of the file.
         :param reserved_1: int, Reserved 1 = 0.
         :param reserved_2: int, Reserved 2 = 0.
-        :param sample_rate_float: float, Sampling rate as a float, fs [kHz].
-        :param sample_rate_int: float, Sampling rate as an int, fs [kHz].
+        :param sample_rate_float: float, Sampling rate as a float in kilohertz, fs [kHz].
+        :param sample_rate_int: float, Sampling rate as an int in Hertz, fs [Hz].
         :param pir_length: int, length of the PIR data per se.
         :param input_device: int, Type of the input device: 0 - voltage probe; 1 - mic; 2 - accelerometer
         :param device_sensitivity: float,device_sensitivity  # Device sensitivity [V/V or V/Pa] for microphone input
