@@ -122,7 +122,7 @@ class PirFile:
                 self.get_time_vector(),
                 self.__pir_data,
             ]
-        )
+        ).T
 
     def get_pir_data(self):
         return self.__pir_data
