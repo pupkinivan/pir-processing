@@ -1,4 +1,6 @@
 import os
+import numpy as np
+
 from utils import read_float_little_endian, read_int_little_endian
 
 
@@ -106,12 +108,26 @@ class PirFile:
         self.__pir_data: list[float] = pir_data
         self.__info_text: str = info_text
 
-    @staticmethod
-    def of(path_to_pir_file):
+    @classmethod
+    def of(cls, path_to_pir_file):
         return PirUtils.read_pir_file(path_to_pir_file)
+
+    def get_time_vector(self):
+        return [i / self.__sample_rate_int for i in range(len(self.__pir_data))]
+
+    def get_ir(self):
+        return np.array(
+            [
+                self.get_time_vector(),
+                self.__pir_data,
+            ]
+        )
 
     def get_pir_data(self):
         return self.__pir_data
+
+    def get_sample_rate(self):
+        return self.__sample_rate_int
 
 
 class PirUtils:
