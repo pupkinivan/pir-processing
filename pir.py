@@ -1,7 +1,8 @@
 import os
 import numpy as np
 
-from utils import read_float_little_endian, read_int_little_endian
+import utils
+from utils import expand_absolute_path, read_float_little_endian, read_int_little_endian
 
 
 class PirFile:
@@ -140,7 +141,9 @@ class PirUtils:
         reserved_3 = None
         reserved_4 = None
 
-        with open(file_path, 'rb') as file:
+        absolute_path = expand_absolute_path(file_path)
+
+        with open(absolute_path, 'rb') as file:
             file_signature = [bytes(file.read(1)) for i in range(4)]
             unsigned_int_version = read_int_little_endian(file)
             info_size = read_int_little_endian(file)
