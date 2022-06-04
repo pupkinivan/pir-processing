@@ -11,6 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pir import PirFile
 
 SAVE_AS_CSV = False
+EXTENSION = "txt"
 
 
 def scan_for_pir_files_in_directory(directory: str | os.PathLike[str]):
