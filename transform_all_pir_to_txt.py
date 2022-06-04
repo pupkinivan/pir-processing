@@ -19,19 +19,21 @@ def scan_for_pir_files_in_directory(directory: str | os.PathLike[str]):
 
 
 def transform_all_pir_files(directory: [str, os.PathLike] = "."):
+    """ Orchestrator method. Scans the directory for .pir files and calls the transforming function. """
     pir_files_set = {os.path.join(directory, pir_file_name)
                      for pir_file_name in scan_for_pir_files_in_directory(directory)}
     _workers: int = cpu_count()
 
     with ThreadPoolExecutor(_workers) as thread_pool:
-        thread_pool.map(read_and_save_pir_as_txt, pir_files_set)
+        thread_pool.map(read_and_save_pir_in_ascii, pir_files_set)
 
     print(f"Transformed the following .PIR files:")
-    for filename in pir_files_set:
-        print(filename)
+    for filename in os.scandir(directory):
+        if filename.is_file() and str(filename.name).lower().endswith(EXTENSION): print(f"  - {filename.name}")
 
 
-def read_and_save_pir_as_txt(path_to_file: str | os.PathLike[str]) -> PirFile:
+def read_and_save_pir_in_ascii(path_to_file: str | os.PathLike[str]) -> PirFile:
+    """ Read the PIR file info from the given path and save it in a new CSV or TXT file. """
     pir_file_data = PirFile.of(path_to_file)
     output_file_name = str(path_to_file).split('.')[-2] + (".csv" if SAVE_AS_CSV else ".txt")
     if SAVE_AS_CSV:
@@ -67,6 +69,7 @@ if __name__ == '__main__':
                         help="Save the file as a CSV, with amplitude along with a time column")
     args = parser.parse_args()
     SAVE_AS_CSV = args.save_as_csv
+    EXTENSION = "csv" if SAVE_AS_CSV else EXTENSION
 
     if args.directory_path is None:
         logging.error("Expected one directory")
@@ -79,5 +82,5 @@ if __name__ == '__main__':
         else:
             print(f"Contents of {absolute_path}:")
             for filename in os.scandir(absolute_path):
-                if filename.is_file(): print(f"  - {filename.name}")
+                if filename.is_file() and str(filename.name).lower().endswith("pir"): print(f"  - {filename.name}")
             transform_all_pir_files(absolute_path)
