@@ -14,6 +14,7 @@ SAVE_AS_CSV = False
 
 
 def scan_for_pir_files_in_directory(directory: str | os.PathLike[str]):
+    """ Scan the directory for files with .pir extension"""
     return set(filter(lambda filename: (filename[-3:].lower() == "pir"), os.listdir(directory)))
 
 
@@ -41,6 +42,7 @@ def read_and_save_pir_as_txt(path_to_file: str | os.PathLike[str]) -> PirFile:
 
 
 def save_pir_data_as_txt(path_to_file: str | os.PathLike[str], pir_file: PirFile):
+    """ Saves the contents of a PirFile to a .txt file in the given path. """
     with open(path_to_file, 'w') as output_file:
         txt_writer = csv.writer(output_file, delimiter=',')
         for pir_row in pir_file.get_pir_data():
@@ -48,6 +50,7 @@ def save_pir_data_as_txt(path_to_file: str | os.PathLike[str], pir_file: PirFile
 
 
 def save_pir_data_as_csv(path_to_file: str | os.PathLike[str], pir_file: PirFile):
+    """ Saves the contents of a PirFile to a .csv file in the given path. """
     with open(path_to_file, 'w') as output_file:
         txt_writer = csv.writer(output_file, delimiter=',')
         txt_writer.writerow(["Time [s]", "Amplitude [V]"])
@@ -74,5 +77,7 @@ if __name__ == '__main__':
             logging.error(f"Directory {absolute_path} does not exist")
             exit(2)
         else:
-            print(f"Contents of {absolute_path}: {os.listdir(absolute_path)}")
+            print(f"Contents of {absolute_path}:")
+            for filename in os.scandir(absolute_path):
+                if filename.is_file(): print(f"  - {filename.name}")
             transform_all_pir_files(absolute_path)
