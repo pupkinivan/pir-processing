@@ -1,6 +1,6 @@
 # pir-processing
 
-[Readme en castellano 🇪🇸](https://github.com/pupkinivan/pir-processing/README-es.md)
+[Readme in English 🇬🇧](https://github.com/pupkinivan/pir-processing/README.md)
 
 Herramientas de procesamiento de archivos de formato PIR (de ARTA) en Python. Incluye un conversor de PIR a CSV, a _.txt_ y clases para la lectura programática de archivos de la primera extensión.
 
