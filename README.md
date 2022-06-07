@@ -1,5 +1,7 @@
 # pir-processing
 
+[Readme en castellano 🇪🇸] (https://github.com/pupkinivan/pir-processing/README-es.md)
+
 Python processing tools for ARTA's .pir files.
 
 ## Requirements:
