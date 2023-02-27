@@ -1,12 +1,8 @@
-name: Linting and codestyle
+name: Publish to PyPI
 
 on:
-  pull_request_target:
-    types:
-      - opened
+  push:
     branches:
-      - develop
-      - stage
       - master
 
 jobs:
@@ -27,9 +23,6 @@ jobs:
         create-virtualenv: true
     - name: Install dependencies
       run: poetry install
-    - name: Code style
+    - name: Build & publish to PyPI
       run: |
-        poetry run black $(git ls-files '*.py')
-    - name: Analysing the code with pylint
-      run: |
-        poetry run pylint $(git ls-files '*.py')
+        poetry publich --build --username ${{secrets.PYPI_USERNAME}} --password ${{secrets.PYPI_PASSWORD}}
