@@ -1,6 +1,11 @@
 name: Linting and codestyle
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
+      - stage
+      - master
 
 jobs:
   build:
