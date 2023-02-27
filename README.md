@@ -1,5 +1,8 @@
 # pir-processing
 
+[![Linting and codestyle](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml/badge.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml)
+[![PyPI deployment](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml/badge.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml)
+
 Python tools for processing ARTA's .pir files.
 
 ## Installation
