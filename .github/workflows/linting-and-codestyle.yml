@@ -1,7 +1,9 @@
 name: Linting and codestyle
 
 on:
-  push:
+  pull_request_target:
+    types:
+      - opened
     branches:
       - develop
       - stage
