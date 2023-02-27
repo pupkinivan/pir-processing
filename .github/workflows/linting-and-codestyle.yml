@@ -1,4 +1,4 @@
-name: Linting and style
+name: Linting and codestyle
 
 on: [push]
 
@@ -26,7 +26,9 @@ jobs:
         poetry install
     - name: Code style
       run: |
+        poetry shell
         black $(git ls-files '*.py')
     - name: Analysing the code with pylint
       run: |
+        poetry shell
         pylint $(git ls-files '*.py')
