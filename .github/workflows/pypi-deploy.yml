@@ -25,4 +25,4 @@ jobs:
       run: poetry install
     - name: Build & publish to PyPI
       run: |
-        poetry publich --build --username ${{secrets.PYPI_USERNAME}} --password ${{secrets.PYPI_PASSWORD}}
+        poetry publish --build --username ${{secrets.PYPI_USERNAME}} --password ${{secrets.PYPI_PASSWORD}}
