@@ -1,6 +1,9 @@
 /.idea/*
+__pycache__/
+poetry.lock
 /build/*
 /.ipynb_checkpoints/*
 /dist/*
 /transform_all_pir_to_txt.spec
 /*.patch
+.tokens
