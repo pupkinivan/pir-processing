@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8"] #, "3.9", "3.10"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -26,9 +26,7 @@ jobs:
         poetry install
     - name: Code style
       run: |
-        poetry shell
-        black $(git ls-files '*.py')
+        poetry run black $(git ls-files '*.py')
     - name: Analysing the code with pylint
       run: |
-        poetry shell
-        pylint $(git ls-files '*.py')
+        poetry run pylint $(git ls-files '*.py')
