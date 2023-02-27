@@ -3,6 +3,9 @@ name = "pir-processing"
 version = "0.0.2"
 description = "Python tools for processing ARTA's PIR file format"
 authors = ["Ivan Pupkin <ipupkin@untref.edu.ar>"]
+homepage = "https://github.com/pupkinivan/pir-processing"
+repository = "https://github.com/pupkinivan/pir-processing"
+keywords = ["audio", "ARTA"]
 license = "MIT"
 readme = "README.md"
 
