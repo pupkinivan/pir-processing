@@ -2,26 +2,50 @@
 
 [Readme in English 🇬🇧](https://github.com/pupkinivan/pir-processing/README.md)
 
-Herramientas de procesamiento de archivos de formato PIR (de ARTA) en Python. Incluye un conversor de PIR a CSV, a _.txt_ y clases para la lectura programática de archivos de la primera extensión.
+[![Linting and codestyle](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml/badg
+e.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml)
+[![PyPI deployment](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml/badge.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml)
 
-## Requisitos:
-- Python >= 3.8
-- NumPy ~= 1.22.4
+`pir-processing` es una herramienta de Python para leer archivos de formato PIR de ARTA y convertirlos a .txt o .csv. Está pensada para poder procesar múltiples archivos en paralelo con procesadores multi-núcleo, gracias a `multiprocessing`.
 
-## Instrucciones
+## Instalación
 
-### Conversión a TXT
+`pip install pir-processing`
 
-Para convertir un conjunto de archivos PIR que estén dentro de un mismo directorio a formato _.txt_, hace falta usar el script del archivo `transform_all_pir_to_ascii.py` de la siguiente forma. En una terminal ("Símbolo de sistema" en Windows, "Terminal" en Linux o macOS), ejecutar dicho script:
+## Requisitos
 
-```python3 transform_all_pir_to_ascii.py RUTA_DEL_DIRECTORIO```
+`python >=3.8,<3.10`
 
-donde `RUTA_DEL_DIRECTORIO` debe ser reemplazada con la ruta _absoluta_ a tus archivos PIR. Esto quiere decir, incluyendo el nombre del disco en el caso de Windows (C:, D:, etc.), `/home` y demás en Linux (o donde se haya montado el disco), etc. Como resultado de la ejecución, los archivos _txt_ se encontrarán en la misma carpeta que los PIR.
+## Instrucciones de uso
 
-### Conversión a CSV
+### Convertir un solo archivo PIR a .txt o .csv
 
-La conversión a CSV se puede hacer de la misma manera que a _txt_, con el agregado de una _flag_ `--csv` en el llamado al script:
+Para convertir un único archivo PIR a formato _.txt_, hace falta usar la herramienta una terminal de la siguiente forma:
 
-```python3 transform_all_pir_to_ascii.py RUTA_DEL_DIRECTORIO --csv```
+```python -m pir_processing --file RUTA_DEL_ARCHIVO_PIR```
+
+donde `RUTA_DEL_ARCHIVO_PIR` debe ser reemplazada con la ruta absoluta al archivo PIR. Esto se puede hacer arrastrando y soltando el archivo en la terminal. Como resultado de la ejecución, el archivo _txt_ se encontrará en la misma carpeta que el PIR de entrada.
+
+La conversión a CSV se puede hacer de la misma manera que a _txt_, con el agregado de una _flag_ `--csv` en el llamado
+ al script:
+
+```python -m pir_processing --csv --file RUTA_DEL_ARCHIVO_PIR```
+
+A diferencia del TXT, los CSV incluyen una columna para el eje temporal. Cabe aclarar que este es generado artificialmente, ya que los archivos PIR no lo incluyen. Para ello, se asume que la grabación comienza en el instante 00:00:00.00
+0000.
+
+### Convertir un conjunto de archivos PIR
+
+Para convertir un conjunto de archivos PIR que estén dentro de un mismo directorio a formato _.txt_, hace falta usar la herramienta una terminal de la siguiente forma:
+
+```python -m pir_processing --directory PATH_TO_YOUR_PIR_FILES```
+
+La conversión a CSV se puede hacer de la misma manera que a _txt_, con el agregado de una _flag_ `--csv` en el llamado
+ al script:
+
+```python -m pir_processing --csv --directory PATH_TO_YOUR_PIR_FILES```
+
+A diferencia del TXT, los CSV incluyen una columna para el eje temporal. Cabe aclarar que este es generado artificialmente, ya que los archivos PIR no lo incluyen. Para ello, se asume que la grabación comienza en el instante 00:00:00.00
+0000.
 
 A diferencia del TXT, los CSV incluyen una columna para el eje temporal. Cabe aclarar que este es generado artificialmente, ya que los archivos PIR no lo incluyen. Para ello, se asume que la grabación comienza en el instante 00:00:00.000000.

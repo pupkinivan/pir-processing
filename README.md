@@ -1,5 +1,7 @@
 # pir-processing
 
+[Documentación en castellano 🇬 🇧 ](https://github.com/pupkinivan/pir-processing/README-es.md)
+
 [![Linting and codestyle](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml/badge.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/linting-and-codestyle.yml)
 [![PyPI deployment](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml/badge.svg)](https://github.com/pupkinivan/pir-processing/actions/workflows/pypi-deploy.yml)
 
