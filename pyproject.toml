@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pir-processing"
-version = "0.0.4"
+version = "0.0.7"
 description = "Python tools for processing ARTA's PIR file format"
 authors = ["Ivan Pupkin <ipupkin@untref.edu.ar>"]
 homepage = "https://github.com/pupkinivan/pir-processing"
