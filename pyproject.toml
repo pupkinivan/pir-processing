@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "pypir"
-version = "0.1.0"
+name = "pir-processing"
+version = "0.0.2"
 description = "Python tools for processing ARTA's PIR file format"
 authors = ["Ivan Pupkin <ipupkin@untref.edu.ar>"]
 license = "MIT"
@@ -16,6 +16,7 @@ matplotlib = "^3.7.0"
 black = "^23.1.0"
 pylint = "^2.16.2"
 mypy = "^1.0.1"
+pytest = "^7.2.1"
 
 [build-system]
 requires = ["poetry-core"]

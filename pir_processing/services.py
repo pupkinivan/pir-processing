@@ -6,7 +6,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import Union
 
-from pypir.pir import PirFile
+from pir_processing.pir import PirFile
 
 SAVE_AS_CSV = False
 EXTENSION = "txt"

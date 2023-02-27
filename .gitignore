@@ -6,3 +6,4 @@ poetry.lock
 /dist/*
 /transform_all_pir_to_txt.spec
 /*.patch
+.tokens

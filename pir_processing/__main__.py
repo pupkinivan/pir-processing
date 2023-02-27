@@ -4,7 +4,7 @@ import logging
 import os
 from traceback import print_exception
 
-from pypir import services
+from pir_processing import services
 
 
 def get_parser():

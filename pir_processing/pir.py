@@ -5,7 +5,7 @@ from typing import List, Union
 
 import numpy as np
 
-from pypir.utils import (
+from pir_processing.utils import (
     expand_absolute_path,
     read_float_little_endian,
     read_int_little_endian,
