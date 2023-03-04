@@ -1,9 +1,10 @@
 """ Module with several services for diverse PIR processing fashions."""
 
+from concurrent.futures import ThreadPoolExecutor
 import csv
+import logging as logger
 from multiprocessing import cpu_count
 import os
-from concurrent.futures import ThreadPoolExecutor
 from typing import Union
 
 from pir_processing.pir import PirFile
@@ -31,15 +32,10 @@ def transform_all_pir_files(directory: Union[str, os.PathLike] = "."):
     with ThreadPoolExecutor(_workers) as thread_pool:
         thread_pool.map(read_and_save_pir_in_ascii, pir_files_set)
 
-    print("Transformed the following .PIR files:")
-    for filename in os.scandir(directory):
-        if filename.is_file() and str(filename.name).lower().endswith(EXTENSION):
-            print(f"  - {filename.name}")
-
 
 def read_and_save_pir_in_ascii(path_to_file: Union[str, os.PathLike]) -> PirFile:
     """Read the PIR file info from the given path and save it in a new CSV or TXT file."""
-    pir_file_data = PirFile.of(path_to_file)
+    pir_file_data = PirFile.from_file_path(path_to_file)
     output_file_name = str(path_to_file).split(".")[-2] + (
         ".csv" if SAVE_AS_CSV else ".txt"
     )
@@ -52,31 +48,46 @@ def read_and_save_pir_in_ascii(path_to_file: Union[str, os.PathLike]) -> PirFile
 
 def save_pir_data_as_txt(path_to_file: Union[str, os.PathLike], pir_file: PirFile):
     """Saves the contents of a PirFile to a .txt file in the given path."""
-    with open(path_to_file, "w", encoding="utf-8") as output_file:
-        txt_writer = csv.writer(output_file, delimiter=",")
-        for pir_row in pir_file.get_pir_data():
-            txt_writer.writerow([pir_row])
+    try:
+        with open(path_to_file, "w", encoding="utf-8") as output_file:
+            txt_writer = csv.writer(output_file, delimiter=",")
+            for pir_row in pir_file.get_pir_data():
+                txt_writer.writerow([pir_row])
+    except IOError:
+        logger.error(
+            "An error occurred while saving the transformed PIR", exc_info=True
+        )
+    else:
+        logger.info("Transformed PIR into file %s", path_to_file)
 
 
 def save_pir_data_as_csv(path_to_file: Union[str, os.PathLike], pir_file: PirFile):
     """Saves the contents of a PirFile to a .csv file in the given path."""
-    with open(path_to_file, "w", encoding="utf-8") as output_file:
-        txt_writer = csv.writer(output_file, delimiter=",")
-        txt_writer.writerow(["Time [s]", "Amplitude [V]"])
-        for pir_row in pir_file.get_ir():
-            txt_writer.writerow(pir_row.tolist())
+    try:
+        with open(path_to_file, "w", encoding="utf-8") as output_file:
+            txt_writer = csv.writer(output_file, delimiter=",")
+            txt_writer.writerow(["Time [s]", "Amplitude [V]"])
+            for pir_row in pir_file.get_ir():
+                txt_writer.writerow(pir_row.tolist())
+    except IOError:
+        logger.error(
+            "An error occurred while saving the transformed PIR", exc_info=True
+        )
+    else:
+        logger.info("Transformed PIR into file %s", path_to_file)
 
 
 def service_directory(path: os.PathLike):
     """Process all .pir files in the given directory path."""
-    print(f"Contents of {path}:")
+    log_message = f"About to transform {path}:\n"
     for filename in os.scandir(path):
         if filename.is_file() and str(filename.name).lower().endswith("pir"):
-            print(f"  - {filename.name}")
+            log_message += f"  - {filename.name}\n"
+    logger.info(log_message)
     transform_all_pir_files(path)
 
 
 def service_file(path: os.PathLike):
     """Process a .pir file at the given path."""
-    print(f"Transforming {path.name = }")
+    logger.info("Transforming %s", path)
     read_and_save_pir_in_ascii(path)

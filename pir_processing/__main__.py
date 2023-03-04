@@ -5,9 +5,11 @@ import os
 from traceback import print_exception
 
 from pir_processing import services
+from pir_processing.logger import set_logging
 
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
+    """Instantiate an ArgumentParser for the CLI"""
     parser = argparse.ArgumentParser(
         description="Enter a directory to PIR files or a single PIR file path."
     )
@@ -47,22 +49,23 @@ def validate_arguments(arguments):
     path = arguments.directory if arguments.directory is not None else arguments.file
     absolute_path = os.path.abspath(os.path.expanduser(os.path.expandvars(path)))
     if not os.path.exists(absolute_path):
-        logging.error("Path %s does not exist" % absolute_path)
+        logging.error("Path %s does not exist", absolute_path)
         raise ValueError("Expected a file or directory path")
     return path
 
 
 if __name__ == "__main__":
+    set_logging()
     args = get_parser().parse_args()
 
     SAVE_AS_CSV = bool(args.save_as_csv)
     EXTENSION = "csv" if SAVE_AS_CSV else "txt"
 
     try:
-        path = validate_arguments(args)
+        input_path = validate_arguments(args)
     except ValueError:
-        print_exception()
+        print_exception()  # pylint: disable=no-value-for-parameter
     else:
         services.EXTENSION = EXTENSION
         services.SAVE_AS_CSV = SAVE_AS_CSV
-        route_command(path)
+        route_command(input_path)
