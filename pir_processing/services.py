@@ -2,12 +2,12 @@
 
 from concurrent.futures import ThreadPoolExecutor
 import csv
+import logging as logger
 from multiprocessing import cpu_count
 import os
 from typing import Union
 
 from pir_processing.pir import PirFile
-import logging as logger
 
 SAVE_AS_CSV = False
 EXTENSION = "txt"
@@ -53,8 +53,10 @@ def save_pir_data_as_txt(path_to_file: Union[str, os.PathLike], pir_file: PirFil
             txt_writer = csv.writer(output_file, delimiter=",")
             for pir_row in pir_file.get_pir_data():
                 txt_writer.writerow([pir_row])
-    except IOError as err:
-        logger.error("An error occurred while saving the transformed PIR", exc_info=True)
+    except IOError:
+        logger.error(
+            "An error occurred while saving the transformed PIR", exc_info=True
+        )
     else:
         logger.info("Transformed PIR into file %s", path_to_file)
 
@@ -67,8 +69,10 @@ def save_pir_data_as_csv(path_to_file: Union[str, os.PathLike], pir_file: PirFil
             txt_writer.writerow(["Time [s]", "Amplitude [V]"])
             for pir_row in pir_file.get_ir():
                 txt_writer.writerow(pir_row.tolist())
-    except IOError as err:
-        logger.error("An error occurred while saving the transformed PIR", exc_info=True)
+    except IOError:
+        logger.error(
+            "An error occurred while saving the transformed PIR", exc_info=True
+        )
     else:
         logger.info("Transformed PIR into file %s", path_to_file)
 
@@ -85,5 +89,5 @@ def service_directory(path: os.PathLike):
 
 def service_file(path: os.PathLike):
     """Process a .pir file at the given path."""
-    logger.info(f"Transforming %s", path)
+    logger.info("Transforming %s", path)
     read_and_save_pir_in_ascii(path)

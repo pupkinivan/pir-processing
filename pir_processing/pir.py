@@ -16,6 +16,7 @@ from pir_processing.utils import (
 # pylint: disable=too-many-instance-attributes
 class PirFile:
     """Data class for storing a PIR file metadata."""
+
     file_signature: List[bytes]
     unsigned_int_version: int
     info_size: int
